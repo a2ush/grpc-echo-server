@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package rpc;
+option go_package = "./;rpc";
+
+import "google/protobuf/timestamp.proto";
+
+service Echo {
+    rpc Reply(ClientRequest) returns (ServerResponse) {}
+}
+
+service Greating {
+    rpc Reply(GreatingClientRequest) returns (ServerGreatingResponse) {}
+}
+
+message ClientRequest {
+    string message = 1;
+}
+
+message ServerResponse {
+    string name = 1;
+    string message = 2;
+    google.protobuf.Timestamp create_time = 15;    
+}
+
+message Format {
+    enum Greeting {
+        Unknown = 0;
+        Formal = 1;
+        Normal = 2;
+        Casual = 3;
+    }
+
+    string echo = 1;
+}
+
+message GreatingClientRequest {
+   Format.Greeting client_greeting = 1;     
+}
+
+message ServerGreatingResponse {
+    string name = 1;
+    Format format = 2;
+    google.protobuf.Timestamp create_time = 15;
+}
